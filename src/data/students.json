@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Alex Hicks",
+    "program": "PhD",
+    "advisor": "Cliff Shaffer & Stephen Edwards",
+    "research": "CS Education, Help-Seeking Behavior, Office Hours",
+    "url": "https://awhicks.github.io/",
+    "photo": "https://awhicks.github.io/images/profile.jpg"
+  },
+  {
+    "name": "Kwasi Biritwum-Nyarko",
+    "program": "PhD",
+    "advisor": "Cliff Shaffer",
+    "research": "CS Education Research",
+    "url": "",
+    "photo": "https://media.licdn.com/dms/image/v2/D5603AQF65374osoCXA/profile-displayphoto-shrink_400_400/B56ZZd7rdKGQAs-/0/1745332649305?e=1768435200&v=beta&t=tntVe5FTh2tbpSGBrw_jpehAWysFM5A-H-XjGnudmxU"
+  },
+  {
+    "name": "S. Moonwara A. Monisha",
+    "program": "PhD",
+    "advisor": "David H Smith IV",
+    "research": "Databases Education, Automated Grading & Feedback",
+    "url": "",
+    "photo": "https://media.licdn.com/dms/image/v2/D5603AQEQHSzISdC2lA/profile-displayphoto-shrink_400_400/B56ZXzbEOsGcBM-/0/1743545714210?e=1768435200&v=beta&t=YcwdGB7wKIXA4ampAbsRBRBFnd0LyNtn36cdb9-gFvY"
+  },
+  {
+    "name": "Vee Pettit",
+    "program": "PhD",
+    "advisor": "Sara Hooshangi",
+    "research": "",
+    "url": "",
+    "photo": "https://media.licdn.com/dms/image/v2/D4E03AQE4wyMxxFDJcA/profile-displayphoto-scale_400_400/B4EZmhEWdZHEAg-/0/1759343897754?e=1768435200&v=beta&t=9UgybXp4dlVSVOC3dJyryUDuGaIkyEhvy0citBTC9Kw"
+  }
+]

@@ -1,0 +1,131 @@
+---
+/**
+ * Writing & Feedback Listing Page
+ *
+ * Shows all writing and feedback sessions from Google Calendar,
+ * grouped by upcoming and past.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventCard from '../../components/EventCard.astro';
+import { getWritingFeedbackSessions } from '../../lib/calendar';
+
+const sessions = await getWritingFeedbackSessions();
+
+// Sort by date (newest first for display)
+const sortedSessions = sessions.sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+
+const now = new Date();
+const upcomingSessions = sortedSessions
+  .filter((s) => new Date(s.date) >= now && !s.cancelled)
+  .reverse(); // Upcoming should be soonest first
+
+const pastSessions = sortedSessions.filter(
+  (s) => new Date(s.date) < now || s.cancelled
+);
+
+// Group past sessions by semester
+function getSemester(date: Date): string {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  if (month >= 0 && month <= 4) return `Spring ${year}`;
+  if (month >= 5 && month <= 7) return `Summer ${year}`;
+  return `Fall ${year}`;
+}
+
+const pastBySemester = pastSessions.reduce((acc, session) => {
+  const semester = getSemester(new Date(session.date));
+  if (!acc[semester]) acc[semester] = [];
+  acc[semester].push(session);
+  return acc;
+}, {} as Record<string, typeof pastSessions>);
+---
+
+<BaseLayout title="Writing & Feedback" description="Collaborative writing sessions and work-in-progress feedback from the DigiEd@VT Digital Education group at Virginia Tech.">
+  <!-- Header -->
+  <section class="bg-vt-maroon-soft text-white py-12">
+    <div class="container">
+      <h1 class="text-3xl md:text-4xl font-heading font-bold mb-4 text-white">
+        Writing & Feedback
+      </h1>
+      <p class="text-lg max-w-2xl text-white/95">
+        Collaborative sessions for joint writing and constructive feedback on work-in-progress.
+        Sessions are scheduled around major venue deadlines (SIGCSE, SIGCHI, IEEE, ASEE) to
+        support group feedback and help each other meet submission goals.
+      </p>
+    </div>
+  </section>
+
+  <!-- Upcoming Sessions -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Upcoming</h2>
+
+      {upcomingSessions.length > 0 ? (
+        <div class="grid md:grid-cols-2 gap-6">
+          {upcomingSessions.map((session) => (
+            <EventCard
+              type="writing-feedback"
+              subtype={session.subtype}
+              title={session.title}
+              date={session.date}
+              startTime={session.startTime}
+              endTime={session.endTime}
+              location={session.location}
+              facilitator={session.facilitator}
+              summary={session.summary}
+              href={`/writing-feedback/${session.id}/`}
+              variant="full"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="bg-grey-50 rounded-lg p-8 text-center">
+          <p class="text-grey-500 text-lg mb-4">No upcoming writing & feedback sessions scheduled.</p>
+          <a
+            href="/calendar/"
+            class="text-vt-maroon hover:text-vt-impact-orange font-semibold"
+          >
+            Subscribe to be notified of future events →
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Past Sessions -->
+  {Object.keys(pastBySemester).length > 0 && (
+    <section class="section bg-grey-50">
+      <div class="container">
+        <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Past Sessions</h2>
+
+        {Object.entries(pastBySemester).map(([semester, sessions]) => (
+          <div class="mb-8">
+            <h3 class="text-lg font-heading font-semibold text-grey-500 mb-4">
+              {semester}
+            </h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {sessions.map((session) => (
+                <EventCard
+                  type="writing-feedback"
+                  subtype={session.subtype}
+                  title={session.title}
+                  date={session.date}
+                  startTime={session.startTime}
+                  endTime={session.endTime}
+                  location={session.location}
+                  facilitator={session.facilitator}
+                  summary={session.summary}
+                  href={`/writing-feedback/${session.id}/`}
+                  variant="compact"
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>

@@ -1,0 +1,132 @@
+---
+/**
+ * Footer Component
+ *
+ * Contains:
+ * - Quick links
+ * - Contact info (including organizers)
+ * - VT affiliation
+ */
+
+import facultyData from '../data/faculty.json';
+
+const currentYear = new Date().getFullYear();
+const organizers = facultyData.filter((p: any) => p.organizer);
+---
+
+<footer class="bg-grey-900 text-white py-12 mt-auto">
+  <div class="container">
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- About -->
+      <div>
+        <h2 class="text-lg font-heading font-semibold mb-4 text-white">
+          DigiEd@VT
+        </h2>
+        <p class="text-grey-300 text-sm leading-relaxed">
+          Digital Education research area at Virginia Tech's Department of
+          Computer Science. We explore how technology transforms teaching
+          and learning.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h2 class="text-lg font-heading font-semibold mb-4 text-white">
+          Quick Links
+        </h2>
+        <ul class="space-y-2 text-sm" role="list">
+          <li>
+            <a href="/calendar/" class="text-grey-300 hover:text-vt-orange no-underline transition-colors">
+              Subscribe to Calendar
+            </a>
+          </li>
+          <li>
+            <a href="/seminars/" class="text-grey-300 hover:text-vt-orange no-underline transition-colors">
+              Seminar Series
+            </a>
+          </li>
+          <li>
+            <a href="/reading-group/" class="text-grey-300 hover:text-vt-orange no-underline transition-colors">
+              Reading Group
+            </a>
+          </li>
+          <li>
+            <a href="/writing-feedback/" class="text-grey-300 hover:text-vt-orange no-underline transition-colors">
+              Writing & Feedback
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://website.cs.vt.edu/research/research-areas/digital-education.html"
+              class="text-grey-300 hover:text-vt-orange no-underline transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              VT CS Digital Education <span aria-hidden="true">↗</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Organizers -->
+      <div>
+        <h2 class="text-lg font-heading font-semibold mb-4 text-white">
+          Organizers
+        </h2>
+        <ul class="space-y-2 text-sm" role="list">
+          {organizers.map((person: any) => (
+            <li>
+              <a
+                href={person.url}
+                class="text-grey-300 hover:text-vt-orange no-underline transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {person.name}<span class="sr-only"> (opens in new tab)</span></a>{person.email && (
+                <span class="text-grey-500"> • </span>
+              )}{person.email && (
+                <a
+                  href={`mailto:${person.email}`}
+                  class="text-grey-400 hover:text-vt-orange no-underline transition-colors"
+                >
+                  {person.email}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <hr class="my-8 border-grey-700" />
+
+    <!-- Bottom Bar -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-grey-400">
+      <p>
+        © {currentYear} Virginia Tech. All rights reserved.
+      </p>
+      <p>
+        <a
+          href="https://www.vt.edu"
+          class="text-grey-300 hover:text-vt-orange no-underline transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Virginia Tech
+          <span class="sr-only">(opens in new tab)</span>
+        </a>
+        {' | '}
+        <a
+          href="https://cs.vt.edu"
+          class="text-grey-300 hover:text-vt-orange no-underline transition-colors"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Department of Computer Science
+          <span class="sr-only">(opens in new tab)</span>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

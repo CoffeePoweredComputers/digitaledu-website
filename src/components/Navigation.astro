@@ -1,0 +1,153 @@
+---
+/**
+ * Navigation Component
+ *
+ * Accessible, responsive navigation with:
+ * - Mobile hamburger menu
+ * - Keyboard navigation
+ * - Current page indicator
+ * - ARIA labels
+ */
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/seminars/', label: 'Presentations' },
+  { href: '/reading-group/', label: 'Reading Group' },
+  { href: '/writing-feedback/', label: 'Writing & Feedback' },
+  { href: '/calendar/', label: 'Calendar' },
+  { href: '/people/', label: 'People' },
+  { href: '/about/', label: 'About' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') {
+    return currentPath === '/';
+  }
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="bg-vt-maroon text-white sticky top-0 z-50 shadow-lg">
+  <nav class="container" aria-label="Main navigation">
+    <div class="flex items-center justify-between py-5">
+      <!-- Logo / Site Title -->
+      <a
+        href="/"
+        class="text-3xl font-bold tracking-tight no-underline text-white hover:text-vt-orange transition-colors"
+        aria-label="DigiEd@VT - Home"
+      >
+        <span class="font-heading">DigiEd</span><span class="text-vt-orange">@VT</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <ul class="hidden md:flex items-center gap-8" role="list">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class:list={[
+                'text-lg font-medium no-underline text-white hover:text-vt-orange transition-colors py-2',
+                { 'border-b-2 border-vt-orange': isActive(link.href) }
+              ]}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Mobile Menu Button -->
+      <button
+        type="button"
+        class="md:hidden p-3 rounded-md hover:bg-vt-maroon/80 transition-colors"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Open navigation menu"
+        id="mobile-menu-button"
+      >
+        <svg
+          class="w-7 h-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+            class="menu-icon"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+            class="close-icon hidden"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="md:hidden hidden pb-4"
+      aria-label="Mobile navigation"
+    >
+      <ul class="flex flex-col gap-2" role="list">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class:list={[
+                'block py-3 px-4 text-lg rounded-md no-underline text-white hover:bg-vt-maroon/80 transition-colors',
+                { 'bg-vt-orange/20 border-l-4 border-vt-orange': isActive(link.href) }
+              ]}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = menuButton?.querySelector('.menu-icon');
+  const closeIcon = menuButton?.querySelector('.close-icon');
+
+  menuButton?.addEventListener('click', () => {
+    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+
+    menuButton.setAttribute('aria-expanded', String(!isExpanded));
+    menuButton.setAttribute(
+      'aria-label',
+      isExpanded ? 'Open navigation menu' : 'Close navigation menu'
+    );
+
+    mobileMenu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+
+  // Close menu on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !mobileMenu?.classList.contains('hidden')) {
+      menuButton?.click();
+    }
+  });
+</script>

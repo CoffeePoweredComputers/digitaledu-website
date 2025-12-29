@@ -1,0 +1,234 @@
+---
+/**
+ * About Page
+ *
+ * Information about DigiEd@VT, how to get involved, and contact details.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="Learn about the DigiEd@VT Digital Education research area at Virginia Tech.">
+  <!-- Header -->
+  <section class="bg-vt-maroon-soft text-white py-12">
+    <div class="container">
+      <h1 class="text-3xl md:text-4xl font-heading font-bold mb-4 text-white">
+        About DigiEd@VT
+      </h1>
+      <p class="text-lg text-white/80 max-w-2xl">
+        A community dedicated to advancing digital education through research,
+        collaboration, and open discussion.
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Our Mission</h2>
+        <p class="text-lg text-grey-700 leading-relaxed mb-6">
+          DigiEd@VT (Digital Education at Virginia Tech) brings together researchers,
+          educators, and students interested in how technology transforms teaching and learning.
+          We explore topics ranging from AI-assisted learning to educational software,
+          from learning analytics to innovative classroom technologies.
+        </p>
+        <p class="text-lg text-grey-700 leading-relaxed">
+          We host <strong>research presentations</strong> (where students, faculty, and
+          invited speakers share their work), <strong>reading groups</strong> (where we
+          discuss recent papers from venues like SIGCSE, ICER, and CHI), and
+          <strong>writing & feedback sessions</strong> (collaborative sessions scheduled
+          around major venue deadlines to support each other's submissions).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schedule -->
+  <section class="section bg-grey-50">
+    <div class="container">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">When We Meet</h2>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="grid sm:grid-cols-3 gap-6">
+            <div>
+              <h3 class="font-heading font-semibold text-vt-maroon mb-2">
+                Seminar Series
+              </h3>
+              <p class="text-grey-500">
+                Research talks, work-in-progress presentations, and invited speakers
+                sharing their expertise in educational technology.
+              </p>
+            </div>
+            <div>
+              <h3 class="font-heading font-semibold text-vt-impact-orange mb-2">
+                Reading Group
+              </h3>
+              <p class="text-grey-500">
+                Discussions of recent papers from educational technology conferences
+                and journals. Come prepared to engage with the material!
+              </p>
+            </div>
+            <div>
+              <h3 class="font-heading font-semibold text-vt-maroon mb-2">
+                Writing & Feedback
+              </h3>
+              <p class="text-grey-500">
+                Collaborative sessions scheduled as needed around major venue deadlines
+                to support group writing and constructive feedback.
+              </p>
+            </div>
+          </div>
+          <hr class="my-6 border-grey-200" />
+          <div class="text-center">
+            <p class="text-grey-500 mb-2">Seminars and reading groups alternate weekly, with writing sessions scheduled as needed</p>
+            <p class="text-lg font-semibold text-vt-maroon">
+              Check the <a href="/calendar/" class="underline hover:text-vt-impact-orange">calendar</a> for specific dates and times
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Get Involved -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Get Involved</h2>
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="w-10 h-10 bg-vt-maroon rounded-full flex items-center justify-center text-white flex-shrink-0">
+              1
+            </div>
+            <div>
+              <h3 class="font-heading font-semibold mb-2">Attend a Session</h3>
+              <p class="text-grey-500">
+                Everyone is welcome! Whether you're a faculty member, graduate student,
+                undergraduate, or just curious about educational technology, come join us.
+                Check the <a href="/calendar/" class="text-vt-maroon hover:text-vt-impact-orange">calendar</a>
+                for upcoming events.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="w-10 h-10 bg-vt-maroon rounded-full flex items-center justify-center text-white flex-shrink-0">
+              2
+            </div>
+            <div>
+              <h3 class="font-heading font-semibold mb-2">Subscribe to Updates</h3>
+              <p class="text-grey-500">
+                Add our calendar to get notified about all upcoming sessions.
+                Visit the <a href="/calendar/" class="text-vt-maroon hover:text-vt-impact-orange">calendar page</a>
+                to subscribe via Google Calendar, Outlook, or Apple Calendar.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="w-10 h-10 bg-vt-maroon rounded-full flex items-center justify-center text-white flex-shrink-0">
+              3
+            </div>
+            <div>
+              <h3 class="font-heading font-semibold mb-2">Present Your Work</h3>
+              <p class="text-grey-500">
+                Have research to share? Want to present a work-in-progress or get
+                feedback on an upcoming paper? We welcome presentations from
+                members of the VT community. Contact the organizers to schedule.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="w-10 h-10 bg-vt-maroon rounded-full flex items-center justify-center text-white flex-shrink-0">
+              4
+            </div>
+            <div>
+              <h3 class="font-heading font-semibold mb-2">Suggest a Paper</h3>
+              <p class="text-grey-500">
+                Read something interesting that you'd like to discuss with the group?
+                We're always looking for papers to add to our reading list.
+                Reach out to suggest a paper or volunteer to lead a discussion.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section bg-vt-maroon text-white">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-2xl font-heading font-bold mb-6 text-white">Contact Us</h2>
+        <p class="text-white/80 mb-6">
+          Questions about DigiEd@VT? Want to present or suggest a paper?
+          Reach out to the organizing team.
+        </p>
+        <div class="bg-white/10 rounded-lg p-6 inline-block">
+          <p class="text-lg">
+            Department of Computer Science
+            <br />
+            Torgersen Hall, Room 3160
+            <br />
+            Virginia Tech
+            <br />
+            Blacksburg, VA 24061
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Links -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Related Resources</h2>
+        <ul class="space-y-3">
+          <li>
+            <a
+              href="https://website.cs.vt.edu/research/research-areas/digital-education.html"
+              class="text-vt-maroon hover:text-vt-impact-orange font-semibold"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              VT CS Digital Education Research Area
+              <span aria-hidden="true" class="ml-1">↗</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+            <p class="text-sm text-grey-500">Official department page with full faculty listing</p>
+          </li>
+          <li>
+            <a
+              href="https://cs.vt.edu"
+              class="text-vt-maroon hover:text-vt-impact-orange font-semibold"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              VT Department of Computer Science
+              <span aria-hidden="true" class="ml-1">↗</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+            <p class="text-sm text-grey-500">Our home department</p>
+          </li>
+          <li>
+            <a
+              href="https://sigcse.org"
+              class="text-vt-maroon hover:text-vt-impact-orange font-semibold"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ACM SIGCSE
+              <span aria-hidden="true" class="ml-1">↗</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+            <p class="text-sm text-grey-500">Special Interest Group on Computer Science Education</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

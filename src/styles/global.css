@@ -1,0 +1,279 @@
+@import "tailwindcss";
+
+/* ============================================
+   VT Brand Fonts - Self-hosted
+   ============================================ */
+
+@font-face {
+  font-family: 'Acherus Grotesque';
+  src: url('/fonts/Acherus Grotesque/acherus_grotesque_-_regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Acherus Grotesque';
+  src: url('/fonts/Acherus Grotesque/acherus_grotesque_-_medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Acherus Grotesque';
+  src: url('/fonts/Acherus Grotesque/acherus_grotesque_-_bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
+   DigiEd@VT Design System
+   Virginia Tech Brand Colors - Light Theme
+   ============================================ */
+
+@theme {
+  /* ==========================================
+     VT BRAND COLORS
+     Official Virginia Tech colors
+     ========================================== */
+  --color-vt-maroon: #630031;        /* Primary brand color */
+  --color-vt-maroon-soft: #861B4D;   /* Lighter maroon for page headers */
+  --color-vt-orange: #CF4420;        /* Accent color */
+  --color-vt-impact-orange: #E87722; /* Better for digital/hover */
+
+  /* ==========================================
+     NEUTRALS - Light Theme
+     WCAG AA compliant contrast ratios
+     ========================================== */
+  --color-white: #FFFFFF;            /* Main background */
+  --color-grey-50: #F8F9FA;          /* Subtle backgrounds, cards */
+  --color-grey-100: #F1F3F5;         /* Alternate sections */
+  --color-grey-200: #DEE2E6;         /* Borders, dividers */
+  --color-grey-300: #CED4DA;         /* Emphasized borders */
+  --color-grey-500: #5A6268;         /* Secondary text - 5.3:1 */
+  --color-grey-700: #495057;         /* Stronger secondary - 7.3:1 */
+  --color-grey-900: #212529;         /* Primary text - 16:1 */
+
+  /* ==========================================
+     EVENT TYPE COLORS - Garden Fresh Pastels
+     ========================================== */
+  /* Research Talks - Lavender */
+  --color-talk-bg: #E6D7F2;
+  --color-talk-text: #3D2259;
+
+  /* Feedback Sessions - Mint */
+  --color-feedback-bg: #D4F5E4;
+  --color-feedback-text: #1B4332;
+
+  /* Paper Discussions - Peach */
+  --color-paper-bg: #FFE5D9;
+  --color-paper-text: #8B3A1D;
+
+  /* Writing Sessions - Sage */
+  --color-writing-bg: #D8E8D2;
+  --color-writing-text: #2D4228;
+
+  /* ==========================================
+     SEMANTIC MAPPINGS
+     ========================================== */
+  --color-text: var(--color-grey-900);
+  --color-text-muted: var(--color-grey-500);
+  --color-background: var(--color-white);
+  --color-border: var(--color-grey-200);
+
+  /* ==========================================
+     TYPOGRAPHY
+     ========================================== */
+  --font-heading: 'Acherus Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Crimson Text', Georgia, 'Times New Roman', serif;
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+
+  /* ==========================================
+     SPACING & LAYOUT
+     ========================================== */
+  --spacing-section: 4rem;
+  --spacing-card: 1.5rem;
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-grey-900);
+  background-color: var(--color-white);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  /* Color inherited from parent - use text-vt-maroon class when needed */
+}
+
+/* ============================================
+   Focus Styles (Accessibility)
+   ============================================ */
+
+:focus-visible {
+  outline: 3px solid var(--color-vt-orange);
+  outline-offset: 2px;
+}
+
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-vt-maroon);
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ============================================
+   Link Styles
+   ============================================ */
+
+/* Links - only apply to content areas, not nav/buttons */
+a:not(nav a):not(header a):not(footer a):not(.no-underline) {
+  color: var(--color-vt-maroon);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a:not(nav a):not(header a):not(footer a):not(.no-underline):hover {
+  color: var(--color-vt-impact-orange);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.section {
+  padding-block: var(--spacing-section);
+}
+
+/* Event Type Badges - Main categories */
+.badge-seminar {
+  background-color: var(--color-vt-maroon);
+  color: white;
+}
+
+.badge-reading {
+  background-color: var(--color-vt-orange);
+  color: white;
+}
+
+/* Event Subtype Badges */
+.badge-talk {
+  background-color: var(--color-talk-bg);
+  color: var(--color-talk-text);
+}
+
+.badge-feedback {
+  background-color: var(--color-feedback-bg);
+  color: var(--color-feedback-text);
+}
+
+.badge-paper {
+  background-color: var(--color-paper-bg);
+  color: var(--color-paper-text);
+}
+
+.badge-writing {
+  background-color: var(--color-writing-bg);
+  color: var(--color-writing-text);
+}
+
+/* Card Utilities */
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-grey-200);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Reduced Motion Support (WCAG 2.1 SC 2.3.3)
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   Enhanced Focus Styles
+   ============================================ */
+
+/* Ensure focus is visible on all interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--color-vt-orange);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* High contrast focus for dark backgrounds */
+.bg-vt-maroon a:focus-visible,
+.bg-vt-maroon button:focus-visible,
+.bg-grey-900 a:focus-visible,
+.bg-grey-900 button:focus-visible {
+  outline-color: white;
+}
+
+/* ============================================
+   Touch Target Sizes (WCAG 2.5.5 - AAA)
+   ============================================ */
+
+@media (pointer: coarse) {
+  a,
+  button,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  nav a {
+    padding-block: 0.75rem;
+  }
+}

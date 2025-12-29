@@ -1,0 +1,149 @@
+---
+/**
+ * Writing & Feedback Detail Page
+ *
+ * Dynamic route for individual writing and feedback session pages.
+ * Data pulled from Google Calendar.
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getWritingFeedbackSessions, getSubtypeLabel, type WritingFeedbackSession } from '../../lib/calendar';
+
+export async function getStaticPaths() {
+  const sessions = await getWritingFeedbackSessions();
+  return sessions.map((session) => ({
+    params: { slug: session.id },
+    props: { session },
+  }));
+}
+
+const { session } = Astro.props as { session: WritingFeedbackSession };
+
+const { title, date, startTime, endTime, location, facilitator, summary, cancelled, subtype } = session;
+
+// Get badge class based on subtype
+const badgeClass = subtype === 'writing' ? 'badge-writing' : 'badge-feedback';
+
+// Format date
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedDate = dateFormatter.format(new Date(date));
+const isoDate = new Date(date).toISOString().split('T')[0];
+
+// Format time
+function formatTime(time: string): string {
+  const [hours, minutes] = time.split(':').map(Number);
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12;
+  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
+
+const displayTime = `${formatTime(startTime)} - ${formatTime(endTime)} ET`;
+
+// Check if location is a URL (Zoom link)
+const isZoomLink = location?.startsWith('http') && location.includes('zoom');
+
+const subtypeLabel = getSubtypeLabel(session);
+const pageDescription = `${subtypeLabel}: ${title}`;
+---
+
+<BaseLayout title={title} description={pageDescription}>
+  <!-- Breadcrumb -->
+  <nav class="bg-grey-50 py-3" aria-label="Breadcrumb">
+    <div class="container">
+      <ol class="flex items-center gap-2 text-sm flex-wrap">
+        <li><a href="/" class="text-grey-500 hover:text-vt-maroon">Home</a></li>
+        <li class="text-grey-500" aria-hidden="true">/</li>
+        <li><a href="/writing-feedback/" class="text-grey-500 hover:text-vt-maroon">Writing & Feedback</a></li>
+        <li class="text-grey-500" aria-hidden="true">/</li>
+        <li class="text-vt-maroon font-medium truncate max-w-xs" aria-current="page">{title}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <article class="section">
+    <div class="container">
+      <div class="max-w-3xl">
+        <!-- Type Badge -->
+        <span class:list={['inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide mb-4', badgeClass]}>
+          {subtypeLabel}
+        </span>
+
+        {cancelled && (
+          <span class="inline-block bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide mb-4 ml-2">
+            Cancelled
+          </span>
+        )}
+
+        <!-- Title -->
+        <h1 class="text-3xl md:text-4xl font-heading font-bold mb-6 text-vt-maroon">
+          {title}
+        </h1>
+
+        <!-- Meta Info -->
+        <div class="bg-grey-50 rounded-lg p-6 mb-8">
+          <dl class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <dt class="text-sm text-grey-500 font-semibold">Date & Time</dt>
+              <dd>
+                <time datetime={`${isoDate}T${startTime}`}>
+                  {formattedDate}
+                  <br />
+                  {displayTime}
+                </time>
+              </dd>
+            </div>
+            {location && (
+              <div>
+                <dt class="text-sm text-grey-500 font-semibold">Location</dt>
+                <dd>
+                  {isZoomLink ? (
+                    <a
+                      href={location}
+                      class="text-vt-maroon hover:text-vt-impact-orange"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Join on Zoom <span class="sr-only">(opens in new tab)</span>
+                    </a>
+                  ) : (
+                    <span>{location}</span>
+                  )}
+                </dd>
+              </div>
+            )}
+            {facilitator && (
+              <div class="sm:col-span-2">
+                <dt class="text-sm text-grey-500 font-semibold">Session Led By</dt>
+                <dd><strong>{facilitator}</strong></dd>
+              </div>
+            )}
+          </dl>
+        </div>
+
+        <!-- Summary/Description -->
+        {summary && (
+          <section class="mb-8">
+            <h2 class="text-xl font-heading font-semibold mb-3 text-vt-maroon">About This Session</h2>
+            <p class="text-grey-700 leading-relaxed whitespace-pre-line">{summary}</p>
+          </section>
+        )}
+
+        <!-- Back Link -->
+        <div class="mt-8">
+          <a
+            href="/writing-feedback/"
+            class="inline-flex items-center gap-2 text-vt-maroon hover:text-vt-impact-orange font-semibold"
+          >
+            ← Back to Writing & Feedback
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

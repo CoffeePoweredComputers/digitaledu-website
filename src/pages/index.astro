@@ -1,0 +1,187 @@
+---
+/**
+ * Homepage - DigiEd@VT
+ *
+ * Welcome section with compact "now playing" event bar.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getUpcomingEvents, getSubtypeLabel, type CalendarEvent } from '../lib/calendar';
+
+// Get upcoming events
+const upcomingEvents = await getUpcomingEvents();
+const nextEvent = upcomingEvents[0];
+const followingEvent = upcomingEvents[1];
+
+// Get event path for URL
+function getEventPath(event: CalendarEvent): string {
+  if (event.type === 'seminar') return 'seminars';
+  if (event.type === 'reading-group') return 'reading-group';
+  return 'writing-feedback';
+}
+
+// Get badge class based on type and subtype
+function getBadgeClass(event: CalendarEvent): string {
+  if (event.type === 'seminar') return 'badge-talk';
+  if (event.type === 'reading-group') return 'badge-paper';
+  return event.subtype === 'writing' ? 'badge-writing' : 'badge-feedback';
+}
+
+// Format date
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(date));
+}
+
+// Format short date
+function formatShortDate(date: Date): string {
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+  }).format(new Date(date));
+}
+
+// Format time
+function formatTime(time: string): string {
+  const [hours, minutes] = time.split(':').map(Number);
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12;
+  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
+---
+
+<BaseLayout title="Home">
+  <!-- Compact Event Bar -->
+  {nextEvent && (
+    <section class="bg-vt-maroon">
+      <div class="container">
+        <a
+          href={`/${getEventPath(nextEvent)}/${nextEvent.id}/`}
+          class="flex items-center gap-3 px-4 py-3 no-underline hover:bg-white/10 transition-colors"
+        >
+          <span class="text-sm font-semibold text-white/70 uppercase tracking-wide shrink-0">Up Next</span>
+          <span class:list={['px-2 py-0.5 rounded text-xs font-semibold uppercase shrink-0', getBadgeClass(nextEvent)]}>
+            {getSubtypeLabel(nextEvent)}
+          </span>
+          <span class="font-heading font-semibold text-white truncate">
+            {nextEvent.title}
+          </span>
+          <span class="text-white/70 text-sm shrink-0 ml-auto">
+            {formatShortDate(nextEvent.date)}, {formatTime(nextEvent.startTime)}
+          </span>
+          <span class="text-white shrink-0">→</span>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <!-- Welcome Section -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-3xl md:text-4xl font-heading font-bold mb-6 text-vt-maroon">
+          Welcome to DigiEd<span class="text-vt-impact-orange">@VT</span>
+        </h1>
+        <p class="text-xl text-grey-700 leading-relaxed mb-8">
+          We're a community of researchers, educators, and students at Virginia Tech
+          exploring the frontiers of digital education. We host <strong>research presentations</strong>,
+          <strong>paper discussions</strong>, and <strong>collaborative writing sessions</strong>
+          covering topics from educational technology to cutting-edge teaching tools.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="/about/"
+            class="bg-grey-50 border border-grey-300 hover:bg-grey-100 text-vt-maroon px-8 py-4 rounded-lg text-lg font-semibold no-underline transition-colors"
+          >
+            Learn More
+          </a>
+          <a
+            href="/calendar/"
+            class="bg-grey-50 border border-grey-300 hover:bg-grey-100 text-vt-maroon px-8 py-4 rounded-lg text-lg font-semibold no-underline transition-colors"
+          >
+            Subscribe to Calendar
+          </a>
+          <a
+            href="/people/"
+            class="bg-grey-50 border border-grey-300 hover:bg-grey-100 text-vt-maroon px-8 py-4 rounded-lg text-lg font-semibold no-underline transition-colors"
+          >
+            Join Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Cards -->
+  <section class="section bg-grey-50 border-t border-grey-200">
+    <div class="container">
+      <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <!-- Presentations -->
+        <a
+          href="/seminars/"
+          class="bg-white rounded-lg border border-grey-200 p-6 hover:shadow-lg hover:border-vt-maroon transition-all no-underline group"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-vt-maroon group-hover:text-vt-impact-orange transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+            <h2 class="text-xl font-heading font-bold text-vt-maroon group-hover:text-vt-impact-orange transition-colors">
+              Presentations
+            </h2>
+          </div>
+          <p class="text-grey-600 mb-4">
+            Research talks from students, experts, and everyone looking to share their work in digital education.
+          </p>
+          <span class="text-vt-maroon font-semibold group-hover:text-vt-impact-orange transition-colors">
+            View all →
+          </span>
+        </a>
+
+        <!-- Reading Group -->
+        <a
+          href="/reading-group/"
+          class="bg-white rounded-lg border border-grey-200 p-6 hover:shadow-lg hover:border-vt-maroon transition-all no-underline group"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-vt-maroon group-hover:text-vt-impact-orange transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            <h2 class="text-xl font-heading font-bold text-vt-maroon group-hover:text-vt-impact-orange transition-colors">
+              Reading Group
+            </h2>
+          </div>
+          <p class="text-grey-600 mb-4">
+            Paper discussions exploring the latest research in digital education and educational technology.
+          </p>
+          <span class="text-vt-maroon font-semibold group-hover:text-vt-impact-orange transition-colors">
+            View all →
+          </span>
+        </a>
+
+        <!-- Writing & Feedback -->
+        <a
+          href="/writing-feedback/"
+          class="bg-white rounded-lg border border-grey-200 p-6 hover:shadow-lg hover:border-vt-maroon transition-all no-underline group"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <svg class="w-6 h-6 text-vt-maroon group-hover:text-vt-impact-orange transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            <h2 class="text-xl font-heading font-bold text-vt-maroon group-hover:text-vt-impact-orange transition-colors">
+              Writing & Feedback
+            </h2>
+          </div>
+          <p class="text-grey-600 mb-4">
+            Collaborative sessions scheduled around major venue deadlines to support group feedback.
+          </p>
+          <span class="text-vt-maroon font-semibold group-hover:text-vt-impact-orange transition-colors">
+            View all →
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,346 @@
+---
+/**
+ * Calendar Page
+ *
+ * Features:
+ * - FullCalendar populated from Google Calendar
+ * - Business hours limited to 8am-6pm
+ * - Subscribe buttons for all major platforms
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { fetchCalendarEvents } from '../lib/calendar';
+
+// Get events from Google Calendar
+const events = await fetchCalendarEvents();
+
+// Format events for FullCalendar with subtype-based styling
+const calendarEvents = events.map((e) => {
+  // Determine class based on subtype for more specific coloring
+  let className = 'event-seminar'; // default
+  if (e.type === 'seminar') {
+    className = e.subtype === 'feedback' ? 'event-feedback' : 'event-talk';
+  } else {
+    className = e.subtype === 'writing' ? 'event-writing' : 'event-reading';
+  }
+
+  return {
+    title: e.title,
+    start: `${new Date(e.date).toISOString().split('T')[0]}T${e.startTime}`,
+    end: `${new Date(e.date).toISOString().split('T')[0]}T${e.endTime}`,
+    url: `/${e.type === 'seminar' ? 'seminars' : e.type === 'reading-group' ? 'reading-group' : 'writing-feedback'}/${e.id}/`,
+    className,
+    extendedProps: {
+      type: e.type,
+      subtype: e.subtype,
+    }
+  };
+});
+
+// DigiEd@VT Google Calendar (for subscribe links)
+const GOOGLE_CALENDAR_ID = 'c_d3fc88c4f18ef13c526fecee60e89c4cb0360bd206519031129a8d45dc3de576@group.calendar.google.com';
+const CALENDAR_ICS_URL = `https://calendar.google.com/calendar/ical/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/public/basic.ics`;
+
+// Subscribe URLs
+const subscribeLinks = {
+  google: `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(GOOGLE_CALENDAR_ID)}`,
+  outlook: `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(CALENDAR_ICS_URL)}`,
+  apple: `webcal://${CALENDAR_ICS_URL.replace('https://', '')}`,
+  ics: CALENDAR_ICS_URL,
+};
+---
+
+<BaseLayout title="Calendar" description="Subscribe to the DigiEd@VT calendar to stay updated on seminars and reading groups.">
+  <!-- Header -->
+  <section class="bg-vt-maroon-soft text-white py-12">
+    <div class="container">
+      <h1 class="text-3xl md:text-4xl font-heading font-bold mb-4 text-white">
+        Calendar
+      </h1>
+      <p class="text-lg text-white/80 max-w-2xl">
+        Stay updated with all DigiEd@VT seminars and reading group sessions.
+        Subscribe to our calendar to get automatic updates in your preferred app.
+      </p>
+    </div>
+  </section>
+
+  <!-- Calendar -->
+  <section class="section bg-grey-100">
+    <div class="container">
+      <div class="max-w-5xl mx-auto">
+        <div id="calendar" class="bg-white rounded-lg border border-grey-300 p-4 shadow-sm"></div>
+
+        <!-- Legend -->
+        <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-4 mb-8 text-sm">
+          <div class="flex items-center gap-2">
+            <span class="w-4 h-4 rounded border-2 legend-talk"></span>
+            <span class="text-grey-700">Research Talks</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-4 h-4 rounded border-2 legend-feedback"></span>
+            <span class="text-grey-700">Feedback Sessions</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-4 h-4 rounded border-2 legend-paper"></span>
+            <span class="text-grey-700">Paper Discussions</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-4 h-4 rounded border-2 legend-writing"></span>
+            <span class="text-grey-700">Writing Sessions</span>
+          </div>
+        </div>
+
+        <!-- Subscribe Buttons -->
+        <div class="bg-white rounded-lg border border-grey-300 p-6 shadow-sm">
+          <h2 class="text-lg font-heading font-semibold text-vt-maroon mb-4">Subscribe to Calendar</h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="group">
+              <a
+                href={subscribeLinks.google}
+                class="flex items-center gap-3 bg-grey-50 border border-grey-200 rounded-lg p-3 hover:border-vt-maroon hover:shadow-md transition-all no-underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="text-xl" aria-hidden="true">📅</span>
+                <span class="font-medium text-grey-900 text-sm">Google Calendar</span>
+              </a>
+              <p class="text-xs text-grey-500 mt-2 px-1">Click to add directly to your Google account</p>
+            </div>
+
+            <div class="group">
+              <a
+                href={subscribeLinks.outlook}
+                class="flex items-center gap-3 bg-grey-50 border border-grey-200 rounded-lg p-3 hover:border-vt-maroon hover:shadow-md transition-all no-underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="text-xl" aria-hidden="true">📧</span>
+                <span class="font-medium text-grey-900 text-sm">Outlook</span>
+              </a>
+              <p class="text-xs text-grey-500 mt-2 px-1">Opens Outlook's "Add from web" dialog</p>
+            </div>
+
+            <div class="group">
+              <a
+                href={subscribeLinks.apple}
+                class="flex items-center gap-3 bg-grey-50 border border-grey-200 rounded-lg p-3 hover:border-vt-maroon hover:shadow-md transition-all no-underline"
+              >
+                <span class="text-xl" aria-hidden="true">🍎</span>
+                <span class="font-medium text-grey-900 text-sm">Apple Calendar</span>
+              </a>
+              <p class="text-xs text-grey-500 mt-2 px-1">Subscribe on Mac, iPhone, or iPad</p>
+            </div>
+
+            <div class="group">
+              <a
+                href={subscribeLinks.ics}
+                class="flex items-center gap-3 bg-grey-50 border border-grey-200 rounded-lg p-3 hover:border-vt-maroon hover:shadow-md transition-all no-underline"
+                download="diged-vt-calendar.ics"
+              >
+                <span class="text-xl" aria-hidden="true">⬇️</span>
+                <span class="font-medium text-grey-900 text-sm">Download ICS</span>
+              </a>
+              <p class="text-xs text-grey-500 mt-2 px-1">Import into any calendar app</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<!-- FullCalendar -->
+<script is:inline src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+
+<script is:inline define:vars={{ calendarEvents }}>
+  document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+
+    if (!calendarEl || typeof FullCalendar === 'undefined') {
+      console.error('FullCalendar not loaded');
+      return;
+    }
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'timeGridWeek',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,listWeek'
+      },
+      slotMinTime: '08:00:00',
+      slotMaxTime: '18:00:00',
+      businessHours: {
+        daysOfWeek: [1, 2, 3, 4, 5],
+        startTime: '08:00',
+        endTime: '18:00'
+      },
+      events: calendarEvents,
+      height: 'auto',
+      nowIndicator: true,
+      weekends: true,
+      eventClick: function(info) {
+        info.jsEvent.preventDefault();
+        if (info.event.url) {
+          window.location.href = info.event.url;
+        }
+      }
+    });
+
+    calendar.render();
+  });
+</script>
+
+<style>
+  /* FullCalendar custom styles to match VT branding */
+  #calendar {
+    --fc-border-color: #CED4DA;
+    --fc-button-bg-color: #630031;
+    --fc-button-border-color: #630031;
+    --fc-button-hover-bg-color: #861B4D;
+    --fc-button-hover-border-color: #861B4D;
+    --fc-button-active-bg-color: #4a0024;
+    --fc-button-active-border-color: #4a0024;
+    --fc-event-bg-color: #630031;
+    --fc-event-border-color: #630031;
+    --fc-today-bg-color: rgba(99, 0, 49, 0.08);
+    --fc-neutral-bg-color: #F8F9FA;
+  }
+
+  #calendar :global(.fc-toolbar-title) {
+    font-family: 'Acherus Grotesque', sans-serif;
+    font-size: 1.25rem;
+    color: #630031;
+  }
+
+  #calendar :global(.fc-button) {
+    font-family: 'Acherus Grotesque', sans-serif;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  /* Research Talk events - Lavender */
+  #calendar :global(.event-talk),
+  #calendar :global(.event-seminar) {
+    background-color: var(--color-talk-bg) !important;
+    border: 2px solid var(--color-talk-text) !important;
+    color: var(--color-talk-text) !important;
+    padding: 4px 6px !important;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--color-talk-text) 25%, transparent) !important;
+    text-decoration: none !important;
+  }
+  #calendar :global(.event-talk .fc-event-title),
+  #calendar :global(.event-seminar .fc-event-title),
+  #calendar :global(.event-talk .fc-event-time),
+  #calendar :global(.event-seminar .fc-event-time) {
+    color: var(--color-talk-text) !important;
+    font-weight: 700;
+  }
+
+  /* Feedback Session events - Mint */
+  #calendar :global(.event-feedback) {
+    background-color: var(--color-feedback-bg) !important;
+    border: 2px solid var(--color-feedback-text) !important;
+    color: var(--color-feedback-text) !important;
+    padding: 4px 6px !important;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--color-feedback-text) 25%, transparent) !important;
+    text-decoration: none !important;
+  }
+  #calendar :global(.event-feedback .fc-event-title),
+  #calendar :global(.event-feedback .fc-event-time) {
+    color: var(--color-feedback-text) !important;
+    font-weight: 700;
+  }
+
+  /* Paper Discussion events - Peach */
+  #calendar :global(.event-reading) {
+    background-color: var(--color-paper-bg) !important;
+    border: 2px solid var(--color-paper-text) !important;
+    color: var(--color-paper-text) !important;
+    padding: 4px 6px !important;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--color-paper-text) 25%, transparent) !important;
+    text-decoration: none !important;
+  }
+  #calendar :global(.event-reading .fc-event-title),
+  #calendar :global(.event-reading .fc-event-time) {
+    color: var(--color-paper-text) !important;
+    font-weight: 700;
+  }
+
+  /* Writing Session events - Sage */
+  #calendar :global(.event-writing) {
+    background-color: var(--color-writing-bg) !important;
+    border: 2px solid var(--color-writing-text) !important;
+    color: var(--color-writing-text) !important;
+    padding: 4px 6px !important;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--color-writing-text) 25%, transparent) !important;
+    text-decoration: none !important;
+  }
+  #calendar :global(.event-writing .fc-event-title),
+  #calendar :global(.event-writing .fc-event-time) {
+    color: var(--color-writing-text) !important;
+    font-weight: 700;
+  }
+
+  #calendar :global(.fc-timegrid-slot-minor) {
+    border-top-style: dotted;
+  }
+
+  #calendar :global(.fc-col-header) {
+    background-color: #F8F9FA;
+  }
+
+  #calendar :global(.fc-timegrid-axis) {
+    background-color: #F8F9FA;
+  }
+
+  #calendar :global(.fc-scrollgrid) {
+    border-color: #CED4DA !important;
+  }
+
+  /* List view - remove underlines and add styling */
+  #calendar :global(.fc-list-event),
+  #calendar :global(.fc-list-event a),
+  #calendar :global(.fc-list-event-title a) {
+    text-decoration: none !important;
+  }
+
+  #calendar :global(.fc-list-event.event-talk),
+  #calendar :global(.fc-list-event.event-seminar) {
+    background-color: var(--color-talk-bg) !important;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--color-talk-text) 25%, transparent) !important;
+  }
+
+  #calendar :global(.fc-list-event.event-feedback) {
+    background-color: var(--color-feedback-bg) !important;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--color-feedback-text) 25%, transparent) !important;
+  }
+
+  #calendar :global(.fc-list-event.event-reading) {
+    background-color: var(--color-paper-bg) !important;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--color-paper-text) 25%, transparent) !important;
+  }
+
+  #calendar :global(.fc-list-event.event-writing) {
+    background-color: var(--color-writing-bg) !important;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--color-writing-text) 25%, transparent) !important;
+  }
+
+  /* Legend swatches */
+  .legend-talk {
+    background-color: var(--color-talk-bg);
+    border-color: var(--color-talk-text);
+  }
+  .legend-feedback {
+    background-color: var(--color-feedback-bg);
+    border-color: var(--color-feedback-text);
+  }
+  .legend-paper {
+    background-color: var(--color-paper-bg);
+    border-color: var(--color-paper-text);
+  }
+  .legend-writing {
+    background-color: var(--color-writing-bg);
+    border-color: var(--color-writing-text);
+  }
+</style>

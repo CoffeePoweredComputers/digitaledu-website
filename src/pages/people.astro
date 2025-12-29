@@ -1,0 +1,211 @@
+---
+/**
+ * People Page
+ *
+ * Displays all faculty members in the Digital Education research area.
+ * Organizers are highlighted at the top.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import facultyData from '../data/faculty.json';
+import studentsData from '../data/students.json';
+
+const faculty = facultyData;
+const students = studentsData;
+
+// Separate organizers from other faculty
+const organizers = faculty.filter((p: any) => p.organizer);
+const otherFaculty = faculty.filter((p: any) => !p.organizer);
+
+// Sort alphabetically by last name
+const sortByLastName = (a: any, b: any) => {
+  const aLast = a.name.split(' ').pop() || '';
+  const bLast = b.name.split(' ').pop() || '';
+  return aLast.localeCompare(bLast);
+};
+
+const sortedOrganizers = organizers.sort(sortByLastName);
+const sortedFaculty = otherFaculty.sort(sortByLastName);
+---
+
+<BaseLayout title="People" description="Faculty members in the DigiEd@VT Digital Education research area at Virginia Tech.">
+  <!-- Header -->
+  <section class="bg-vt-maroon-soft text-white py-12">
+    <div class="container">
+      <h1 class="text-3xl md:text-4xl font-heading font-bold mb-4 text-white">
+        Our People
+      </h1>
+      <p class="text-lg text-white/80 max-w-2xl">
+        Meet the faculty members engaged in Digital Education research at Virginia Tech's
+        Department of Computer Science.
+      </p>
+    </div>
+  </section>
+
+  <!-- Organizers -->
+  {sortedOrganizers.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Organizers</h2>
+        <div class="grid sm:grid-cols-2 gap-6 max-w-2xl">
+          {sortedOrganizers.map((person: any) => (
+            <article class="bg-white rounded-lg shadow-md border-l-4 border-vt-orange p-6 hover:shadow-lg transition-shadow">
+              <div class="flex items-center gap-4">
+                {person.photo ? (
+                  <img
+                    src={person.photo}
+                    alt=""
+                    class="w-20 h-20 rounded-full object-cover border-2 border-vt-orange flex-shrink-0"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="w-20 h-20 bg-vt-maroon rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0" aria-hidden="true">
+                    {person.name.split(' ').map((n: string) => n[0]).join('')}
+                  </div>
+                )}
+                <div>
+                  <h3 class="text-lg font-heading font-semibold mb-1">
+                    {person.url ? (
+                      <a
+                        href={person.url}
+                        class="text-vt-maroon hover:text-vt-impact-orange no-underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {person.name}
+                        <span class="sr-only">(opens in new tab)</span>
+                      </a>
+                    ) : (
+                      person.name
+                    )}
+                  </h3>
+                  <p class="text-sm text-grey-500">{person.title}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- All Faculty -->
+  <section class="section bg-grey-50">
+    <div class="container">
+      <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Faculty</h2>
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {sortedFaculty.map((person: any) => (
+          <article class="bg-white rounded-lg shadow-sm border border-grey-200 p-5 hover:shadow-md transition-shadow">
+            {person.photo ? (
+              <img
+                src={person.photo}
+                alt=""
+                class="w-20 h-20 rounded-full object-cover mb-4 mx-auto border-2 border-grey-200"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-20 h-20 bg-vt-maroon/10 rounded-full flex items-center justify-center text-vt-maroon text-xl font-bold mb-4 mx-auto" aria-hidden="true">
+                {person.name.split(' ').map((n: string) => n[0]).join('')}
+              </div>
+            )}
+            <h3 class="text-base font-heading font-semibold text-center mb-1">
+              {person.url ? (
+                <a
+                  href={person.url}
+                  class="text-vt-maroon hover:text-vt-impact-orange no-underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {person.name}
+                  <span class="sr-only">(opens in new tab)</span>
+                </a>
+              ) : (
+                person.name
+              )}
+            </h3>
+            <p class="text-sm text-grey-500 text-center">{person.title}</p>
+            {person.role && (
+              <p class="text-xs text-vt-maroon/80 text-center mt-1 font-medium">{person.role}</p>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Graduate Students -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Graduate Students</h2>
+      {students.length > 0 && students[0].name !== "Example Student" ? (
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {students.map((student: any) => (
+            <article class="bg-white rounded-lg shadow-sm border border-grey-200 p-5 hover:shadow-md transition-shadow">
+              {student.photo ? (
+                <img
+                  src={student.photo}
+                  alt=""
+                  class="w-20 h-20 rounded-full object-cover mb-4 mx-auto border-2 border-vt-impact-orange/50"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-20 h-20 bg-vt-impact-orange/10 rounded-full flex items-center justify-center text-vt-impact-orange text-xl font-bold mb-4 mx-auto" aria-hidden="true">
+                  {student.name.split(' ').map((n: string) => n[0]).join('')}
+                </div>
+              )}
+              <h3 class="text-base font-heading font-semibold text-center mb-1">
+                {student.url ? (
+                  <a
+                    href={student.url}
+                    class="text-vt-maroon hover:text-vt-impact-orange no-underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {student.name}
+                    <span class="sr-only">(opens in new tab)</span>
+                  </a>
+                ) : (
+                  student.name
+                )}
+              </h3>
+              <p class="text-sm text-vt-impact-orange text-center font-semibold">{student.program}</p>
+              {student.research && (
+                <p class="text-xs text-grey-500 text-center mt-2 leading-relaxed">{student.research}</p>
+              )}
+              {student.advisor && (
+                <p class="text-xs text-grey-500 text-center mt-1">
+                  <span class="font-medium">Advisor:</span> {student.advisor}
+                </p>
+              )}
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="bg-grey-50 rounded-lg p-8 text-center">
+          <p class="text-grey-500 mb-2">Graduate students coming soon!</p>
+          <p class="text-sm text-grey-500">
+            Interested in Digital Education research? Contact one of the organizers.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Link to Official Page -->
+  <section class="section bg-grey-50">
+    <div class="container text-center">
+      <p class="text-grey-500 mb-4">
+        For the complete list of Digital Education researchers at VT CS, visit the official department page.
+      </p>
+      <a
+        href="https://website.cs.vt.edu/research/research-areas/digital-education.html"
+        class="inline-flex items-center gap-2 bg-vt-maroon hover:bg-vt-maroon/90 text-white px-6 py-3 rounded-lg font-semibold no-underline transition-colors"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        VT CS Digital Education <span aria-hidden="true">↗</span>
+        <span class="sr-only">(opens in new tab)</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
