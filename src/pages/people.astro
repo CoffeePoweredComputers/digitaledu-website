@@ -3,7 +3,7 @@
  * People Page
  *
  * Displays all faculty members in the Digital Education research area.
- * Organizers are highlighted at the top.
+ * Event Organizers are highlighted at the top.
  */
 
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -28,7 +28,7 @@ const sortedOrganizers = organizers.sort(sortByLastName);
 const sortedFaculty = otherFaculty.sort(sortByLastName);
 ---
 
-<BaseLayout title="People" description="Faculty members in the DigiEd@VT Digital Education research area at Virginia Tech.">
+<BaseLayout title="People" description="Faculty members in the DigitalEd@VT Digital Education research area at Virginia Tech.">
   <!-- Header -->
   <section class="bg-vt-maroon-soft text-white py-12">
     <div class="container">
@@ -46,7 +46,7 @@ const sortedFaculty = otherFaculty.sort(sortByLastName);
   {sortedOrganizers.length > 0 && (
     <section class="section">
       <div class="container">
-        <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Organizers</h2>
+        <h2 class="text-2xl font-heading font-bold mb-6 text-vt-maroon">Event Organizers</h2>
         <div class="grid sm:grid-cols-2 gap-6 max-w-2xl">
           {sortedOrganizers.map((person: any) => (
             <article class="bg-white rounded-lg shadow-md border-l-4 border-vt-orange p-6 hover:shadow-lg transition-shadow">
@@ -184,7 +184,7 @@ const sortedFaculty = otherFaculty.sort(sortByLastName);
         <div class="bg-grey-50 rounded-lg p-8 text-center">
           <p class="text-grey-500 mb-2">Graduate students coming soon!</p>
           <p class="text-sm text-grey-500">
-            Interested in Digital Education research? Contact one of the organizers.
+            Interested in Digital Education research? Contact one of the event organizers.
           </p>
         </div>
       )}

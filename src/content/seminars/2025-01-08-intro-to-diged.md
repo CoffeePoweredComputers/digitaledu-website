@@ -1,5 +1,5 @@
 ---
-title: "Welcome to DigiEd@VT: Introduction and Vision"
+title: "Welcome to DigitalEd@VT: Introduction and Vision"
 date: 2025-01-08
 startTime: "14:00"
 endTime: "15:00"
@@ -11,7 +11,7 @@ speaker:
   name: "Dr. Stephen Edwards"
   affiliation: "Virginia Tech"
   url: "https://people.cs.vt.edu/edwards/"
-abstract: "Join us for the inaugural session of DigiEd@VT! In this kickoff seminar, we'll introduce our mission, discuss our goals for the semester, and explore the landscape of digital education research at Virginia Tech. Whether you're a faculty member, graduate student, or simply curious about educational technology, this is the perfect starting point."
+abstract: "Join us for the inaugural session of DigitalEd@VT! In this kickoff seminar, we'll introduce our mission, discuss our goals for the semester, and explore the landscape of digital education research at Virginia Tech. Whether you're a faculty member, graduate student, or simply curious about educational technology, this is the perfect starting point."
 tags:
   - introduction
   - community

@@ -36,7 +36,7 @@ netlify deploy --prod
 - Search for **Google Calendar**
 - Choose **"New Event"** (or "Event Start" / "Updated Event" for more triggers)
 - Connect your Google account
-- Select your DigiEd@VT calendar
+- Select your DigitalEd@VT calendar
 
 ### Action (Do this...)
 - Search for **Webhooks by Zapier**

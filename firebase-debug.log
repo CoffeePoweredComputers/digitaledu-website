@@ -12,3 +12,17 @@
 [debug] [2025-12-28T02:54:32.206Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)
 [debug] [2025-12-28T02:54:32.207Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
 [debug] [2025-12-28T02:54:32.207Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)
+[debug] [2025-12-29T04:18:43.992Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-29T04:18:43.994Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)
+[debug] [2025-12-29T04:18:43.995Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-29T04:18:43.995Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)
+[debug] [2025-12-29T04:18:44.032Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-29T04:18:44.032Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)
+[debug] [2025-12-29T04:18:44.074Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-29T04:18:44.074Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)
+[debug] [2025-12-29T04:18:44.076Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-29T04:18:44.076Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)
+[debug] [2025-12-29T04:18:44.078Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-29T04:18:44.078Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)
+[debug] [2025-12-29T04:18:44.079Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-12-29T04:18:44.079Z] > authorizing via signed-in user (davidsmith@hamiltonfour.tech)

@@ -1,4 +1,4 @@
-# DigiEd@VT Website
+# DigitalEd@VT Website
 
 A website for the Digital Education research group at Virginia Tech, built with Astro and Tailwind CSS. Events are pulled directly from Google Calendar.
 
