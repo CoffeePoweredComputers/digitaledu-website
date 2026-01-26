@@ -4,160 +4,160 @@
     "title": "Professor",
     "role": "Associate Dept Head for Undergraduate Studies",
     "url": "https://people.cs.vt.edu/edwards/",
-    "photo": "https://website.cs.vt.edu/content/website_cs_vt_edu/en/people/faculty/stephen-edwards/_jcr_content/bio-image.transform/s-medium/image.jpg"
+    "photo": "/images/people/stephen-edwards.jpg"
   },
   {
     "name": "Eli Tilevich",
     "title": "Professor",
     "role": "Associate Dept Head for Graduate Studies",
     "url": "https://people.cs.vt.edu/tilevich/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20240611_faculty_portraits_bytoniamoxley_070.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/eli-tilevich.jpg"
   },
   {
     "name": "Sara Hooshangi",
     "title": "Collegiate Professor",
     "role": "M.Eng Program Director",
     "url": "https://people.cs.vt.edu/hooshangi/",
-    "photo": "https://website.cs.vt.edu/content/website_cs_vt_edu/en/people/faculty/sara-hooshangi/_jcr_content/bio-image.transform/s-medium/image.jpg"
+    "photo": "/images/people/sara-hooshangi.jpg"
   },
   {
     "name": "Bob Edmison",
     "title": "Collegiate Associate Professor",
     "role": "Online Teaching/Learning Coordinator",
     "url": "https://people.cs.vt.edu/edmison/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20210823%20-%20Bob%20Edmison%20-%20By%20Peter%20Means-0825.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/bob-edmison.jpg"
   },
   {
     "name": "Sally Hamouda",
     "title": "Collegiate Associate Professor",
     "role": "Outreach Lead",
     "url": "https://people.cs.vt.edu/hamouda/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20220816%20-%20Sally%20Hamouda%20-%20By%20Peter%20Means-3211.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/sally-hamouda.jpg"
   },
   {
     "name": "Mohammed Seyam",
     "title": "Collegiate Associate Professor",
     "role": "Director of Experiential Learning",
     "url": "https://people.cs.vt.edu/seyam/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/faculty-headshots/mohammed-seyam/MohammedSeyam.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/mohammed-seyam.jpg"
   },
   {
     "name": "Cliff Shaffer",
     "title": "Professor",
     "email": "shaffer@cs.vt.edu",
     "url": "https://people.cs.vt.edu/shaffer/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20200214%20-%20CS%20Faculty%20-%20By%20Peter%20Means-0793.jpg.transform/s-medium/image.jpg",
+    "photo": "/images/people/cliff-shaffer.jpg",
     "organizer": true
   },
   {
     "name": "Wu-chun Feng",
     "title": "Professor",
     "url": "https://people.cs.vt.edu/feng/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20231130_Wu_Feng_bytoniamoxley.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/wu-chun-feng.jpg"
   },
   {
     "name": "Melissa Cameron",
     "title": "Collegiate Assistant Professor",
     "url": "https://cs.vt.edu/people/faculty/cameron.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/Melissa_Cameron_CS_bytoniamoxley.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/melissa-cameron.jpg"
   },
   {
     "name": "Siwei Cao",
     "title": "Instructor",
     "url": "https://cs.vt.edu/people/faculty/cao.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/Siwei_Cao_bytoniamoxley.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/siwei-cao.jpg"
   },
   {
     "name": "Yan Chen",
     "title": "Assistant Professor",
     "url": "https://people.cs.vt.edu/ychen/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/yan%20chen.jpeg.transform/s-medium/image.jpeg"
+    "photo": "/images/people/yan-chen.jpeg"
   },
   {
     "name": "Dan Dunlap",
     "title": "Visiting Associate Professor",
     "url": "https://cs.vt.edu/people/faculty/dunlap.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/Dan%20Dunlap.jpeg.transform/s-medium/image.jpeg"
+    "photo": "/images/people/dan-dunlap.jpeg"
   },
   {
     "name": "Margaret Ellis",
     "title": "Professor of Practice",
     "url": "https://cs.vt.edu/people/faculty/ellis.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/240131_ellis_bytoniamoxley_000020.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/margaret-ellis.jpg"
   },
   {
     "name": "Onyeka Emebo",
     "title": "Collegiate Assistant Professor",
     "url": "https://cs.vt.edu/people/faculty/emebo.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20210823%20-%20Onyeka%20Emebo%20-%20By%20Peter%20Means-0933.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/onyeka-emebo.jpg"
   },
   {
     "name": "Mohammed Farghally",
     "title": "Collegiate Assistant Professor",
     "url": "https://people.cs.vt.edu/farghally/",
-    "photo": "https://website.cs.vt.edu/content/website_cs_vt_edu/en/people/faculty/mohammed-farghally/_jcr_content/bio-image.transform/s-medium/image.jpg"
+    "photo": "/images/people/mohammed-farghally.jpg"
   },
   {
     "name": "Heath Hillman",
     "title": "Instructor",
     "role": "Director of Academic Operations",
     "url": "https://cs.vt.edu/people/faculty/hillman.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/210825_heath_hillman_bytoniamoxley_%20(2).jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/heath-hillman.jpg"
   },
   {
     "name": "Greg Kulczycki",
     "title": "Associate Professor of Practice",
     "url": "https://people.cs.vt.edu/kulczycki/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20210823%20-%20Greg%20Kulczycki%20-%20By%20Peter%20Means-0792.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/greg-kulczycki.jpg"
   },
   {
     "name": "David McPherson",
     "title": "Senior Instructor",
     "url": "https://cs.vt.edu/people/faculty/mcpherson.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20210823%20-%20Dave%20McPherson%20-%20By%20Peter%20Means-1097.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/david-mcpherson.jpg"
   },
   {
     "name": "Saad Nizamani",
     "title": "Instructor",
     "url": "https://cs.vt.edu/people/faculty/nizamani-saad.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/Saad%20Nizamani.jpeg.transform/s-medium/image.jpeg"
+    "photo": "/images/people/saad-nizamani.jpeg"
   },
   {
     "name": "Sehrish Basir Nizamani",
     "title": "Collegiate Assistant Professor",
     "url": "https://cs.vt.edu/people/faculty/nizamani-sehrish.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/Sehrish%20Basir%20Nizamani%203%20bytoniamoxley.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/sehrish-nizamani.jpg"
   },
   {
     "name": "Erika Olimpiew",
     "title": "Collegiate Associate Professor",
     "url": "https://cs.vt.edu/people/faculty/olimpiew.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/Erika_Olimpiew_bytoniamoxley.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/erika-olimpiew.jpg"
   },
   {
     "name": "Timothy Richards",
     "title": "Advanced Instructor",
     "url": "https://cs.vt.edu/people/faculty/richards.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/Richards_Timothy_HD%20-%20Timothy%20Richards.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/timothy-richards.jpg"
   },
   {
     "name": "Allyson Senger",
     "title": "Instructor",
     "url": "https://cs.vt.edu/people/faculty/senger.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20230929_Allyson_Senger_bytoniamoxley_1.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/allyson-senger.jpg"
   },
   {
     "name": "David H Smith IV",
     "title": "Assistant Professor",
     "email": "dhsmith4@vt.edu",
     "url": "https://people.cs.vt.edu/dhsmith/",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/David%20Smith%20IV.jpg.transform/s-medium/image.jpg",
+    "photo": "/images/people/david-smith.jpg",
     "organizer": true
   },
   {
     "name": "Patrick Sullivan",
     "title": "Instructor",
     "url": "https://cs.vt.edu/people/faculty/sullivan.html",
-    "photo": "https://website.cs.vt.edu/content/dam/website_cs_vt_edu/images/20230818_Patrick_Sullivan_bytoniamoxley_0001.jpg.transform/s-medium/image.jpg"
+    "photo": "/images/people/patrick-sullivan.jpg"
   }
 ]
