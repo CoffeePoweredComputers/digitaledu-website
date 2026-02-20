@@ -3,14 +3,14 @@ const { exec } = require('child_process');
 const path = require('path');
 
 const PORT = 3001;
-const PROJECT_DIR = '/home/dhsmith4/digitaledu-website';
-const SECRET_TOKEN = process.env.WEBHOOK_SECRET || 'your-secret-token-here';
+const PROJECT_DIR = path.dirname(__filename);
+const SECRET_TOKEN = process.env.WEBHOOK_SECRET;
 
 const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/') {
-        // Optional: Verify secret token
+        // Optional: Verify secret token (only check if SECRET_TOKEN is configured)
         const authHeader = req.headers['x-webhook-secret'];
-        if (SECRET_TOKEN !== 'your-secret-token-here' && authHeader !== SECRET_TOKEN) {
+        if (SECRET_TOKEN && authHeader !== SECRET_TOKEN) {
             res.writeHead(401);
             res.end('Unauthorized');
             return;

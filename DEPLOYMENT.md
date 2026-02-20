@@ -2,58 +2,72 @@
 
 This site uses **Google Calendar as the database**. When you add/edit events in Google Calendar, the site needs to rebuild to show the changes.
 
-## 1. Deploy to Netlify
+## Self-Hosted Deployment
 
-### Option A: Via Netlify UI
-1. Go to [netlify.com](https://netlify.com) and sign up/login
-2. Click "Add new site" → "Import an existing project"
-3. Connect your GitHub repo
-4. Netlify auto-detects settings from `netlify.toml`
-5. Click "Deploy site"
+The site runs on a self-hosted server with nginx serving the static build output.
 
-### Option B: Via Netlify CLI
+### Initial Setup
+
+1. Clone the repository and install dependencies:
+   ```bash
+   git clone <repo-url> /home/dhsmith4/digitaledu-website
+   cd /home/dhsmith4/digitaledu-website
+   npm install
+   npm run build
+   ```
+
+2. Configure nginx to serve the `dist/` directory.
+
+3. Start the webhook server (optional, for manual rebuilds):
+   ```bash
+   pm2 start webhook-server.cjs --name webhook-server
+   ```
+
+## Calendar Watcher (Auto-Rebuild on Calendar Changes)
+
+The calendar watcher polls Google Calendar every 5 minutes and rebuilds the site only when changes are detected. It uses sync tokens for efficient incremental syncs.
+
+### Setup
+
+1. Make the script executable:
+   ```bash
+   chmod +x scripts/run-calendar-watcher.sh
+   ```
+
+2. Add cron job (runs every 5 minutes):
+   ```bash
+   crontab -e
+   ```
+   Add this line:
+   ```
+   */5 * * * * /home/dhsmith4/digitaledu-website/scripts/run-calendar-watcher.sh >> /home/dhsmith4/digitaledu-website/logs/cron.log 2>&1
+   ```
+
+3. Test manually:
+   ```bash
+   node scripts/calendar-watcher.cjs
+   ```
+   First run does a full sync and creates `.calendar-sync-state.json`. Subsequent runs only rebuild if calendar changes are detected.
+
+### How It Works
+
+- Uses Google Calendar sync tokens for efficient change detection
+- Only triggers a rebuild when events are added, modified, or deleted
+- Handles token expiration (410 GONE) by doing a full resync
+- Logs activity to `logs/calendar-watcher.log`
+- Uses a lock file to prevent concurrent runs
+
+### Manual Rebuild
+
+Trigger a manual rebuild via webhook:
 ```bash
-npm install -g netlify-cli
-netlify login
-netlify init
-netlify deploy --prod
+curl -X POST https://digitaled.cs.vt.edu/webhook/rebuild
 ```
 
-## 2. Create a Build Hook
-
-1. In Netlify: **Site settings** → **Build & deploy** → **Build hooks**
-2. Click "Add build hook"
-3. Name it: `google-calendar-update`
-4. Branch: `main`
-5. Click "Save" and copy the URL (looks like `https://api.netlify.com/build_hooks/xxxxx`)
-
-## 3. Set Up Zapier Webhook
-
-1. Go to [zapier.com](https://zapier.com) and sign up/login
-2. Click "Create Zap"
-
-### Trigger (When this happens...)
-- Search for **Google Calendar**
-- Choose **"New Event"** (or "Event Start" / "Updated Event" for more triggers)
-- Connect your Google account
-- Select your DigitalEd@VT calendar
-
-### Action (Do this...)
-- Search for **Webhooks by Zapier**
-- Choose **"POST"**
-- URL: Paste your Netlify build hook URL
-- Payload Type: `form`
-- Leave data empty
-- Click "Test" then "Publish"
-
-## 4. Test It
-
-1. Add a test event to Google Calendar:
-   - Title: `[Seminar] Test Event`
-   - Description: `Speaker: Test Person`
-2. Wait 1-2 minutes for Zapier to trigger
-3. Check Netlify deploys - you should see a new build
-4. Delete the test event when done
+Or run the build directly:
+```bash
+npm run build
+```
 
 ---
 
@@ -74,17 +88,7 @@ Bio: Speaker biography here.
 URL: https://speaker-website.com
 ```
 
-#### Feedback Session
-**Title:** `[Feedback] Work-in-Progress Feedback Session`
-
-**Description:**
-```
-Speaker: John Doe
-Affiliation: Virginia Tech
-Abstract: Overview of the work to be discussed.
-```
-
-### Working Sessions (show on /reading-group/)
+### Reading Group (show on /reading-group/)
 
 #### Paper Discussion
 **Title:** `[Reading] Paper Discussion Title` or `[Reading Group] Paper Title`
@@ -98,6 +102,8 @@ Facilitator: Jane Doe
 Summary: What we'll discuss...
 ```
 
+### Writing & Feedback (show on /writing-feedback/)
+
 #### Writing Session
 **Title:** `[Writing] Joint Writing Session Title`
 
@@ -105,6 +111,16 @@ Summary: What we'll discuss...
 ```
 Facilitator: Jane Doe
 Summary: Focus and goals for this session...
+```
+
+#### Feedback Session
+**Title:** `[Feedback] Work-in-Progress Feedback Session`
+
+**Description:**
+```
+Speaker: John Doe
+Affiliation: Virginia Tech
+Abstract: Overview of the work to be discussed.
 ```
 
 ### Field Reference
@@ -125,28 +141,20 @@ Summary: Focus and goals for this session...
 
 ---
 
-## Multiple Zapier Triggers (Optional)
-
-For faster updates, create additional Zaps for:
-- **"Updated Event in Google Calendar"** - catches edits
-- **"Event Cancelled"** - catches deletions
-
-Each Zap uses the same Netlify webhook URL.
-
----
-
 ## Troubleshooting
 
 **Events not showing?**
-- Check event title has `[Seminar]` or `[Reading]` prefix
-- Wait for Zapier trigger (can take 1-15 min on free plan)
-- Check Netlify deploy logs for errors
+- Check event title has correct prefix (e.g., `[Seminar]`, `[Reading]`)
+- Wait for calendar watcher to run (every 5 minutes)
+- Check `logs/calendar-watcher.log` for errors
+- Try running `node scripts/calendar-watcher.cjs` manually
 
 **Build failing?**
 - Check Google Calendar API key is valid
 - Ensure calendar is set to public
+- Check `logs/calendar-watcher.log` for build errors
 
-**Zapier not triggering?**
-- Check Zap is turned ON
-- Verify Google Calendar connection
-- Free Zapier checks every 15 minutes; paid plans are faster
+**Calendar watcher not running?**
+- Verify cron job is set up: `crontab -l`
+- Check `logs/cron.log` for errors
+- Ensure Node.js 20 is available via nvm
