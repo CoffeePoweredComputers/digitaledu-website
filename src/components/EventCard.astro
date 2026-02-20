@@ -7,6 +7,8 @@
  * Supports both full and compact variants.
  */
 
+import LocalTime from './LocalTime.astro';
+
 type PresentationSubtype = 'talk';
 type ReadingGroupSubtype = 'reading';
 type WritingFeedbackSubtype = 'writing' | 'feedback';
@@ -18,6 +20,8 @@ interface Props {
   date: Date;
   startTime: string;
   endTime: string;
+  startDateTime: string;
+  endDateTime: string;
   location?: string;
   // Presentation-specific
   speaker?: {
@@ -45,6 +49,8 @@ const {
   date,
   startTime,
   endTime,
+  startDateTime,
+  endDateTime,
   location,
   speaker,
   abstract,
@@ -97,16 +103,6 @@ const eventDate = new Date(date);
 const isoDate = eventDate.toISOString().split('T')[0];
 const formattedDate = dateFormatter.format(eventDate);
 
-// Format time for display (convert 24h to 12h)
-function formatTime(time: string): string {
-  const [hours, minutes] = time.split(':').map(Number);
-  const period = hours >= 12 ? 'PM' : 'AM';
-  const displayHours = hours % 12 || 12;
-  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
-}
-
-const displayTime = `${formatTime(startTime)} - ${formatTime(endTime)} ET`;
-
 // Location display - now handles string location
 const isZoomLink = location?.startsWith('http') && location.includes('zoom');
 const locationIcon = isZoomLink ? '💻' : '📍';
@@ -152,7 +148,12 @@ const locationIcon = isZoomLink ? '💻' : '📍';
     <span class="flex items-center gap-1.5">
       <span aria-hidden="true">🕐</span>
       <span class="sr-only">Time:</span>
-      {displayTime}
+      <LocalTime
+        startDateTime={startDateTime}
+        endDateTime={endDateTime}
+        startTime={startTime}
+        endTime={endTime}
+      />
     </span>
     {location && (
       <span class="flex items-center gap-1.5">

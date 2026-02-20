@@ -8,6 +8,7 @@
  */
 
 import { getUpcomingEvents, type CalendarEvent, getSubtypeLabel } from '../lib/calendar';
+import LocalTime from './LocalTime.astro';
 
 // Get upcoming events from calendar
 const upcomingEvents = await getUpcomingEvents();
@@ -37,13 +38,6 @@ function formatDate(date: Date): string {
   }).format(new Date(date));
 }
 
-// Format time
-function formatTime(time: string): string {
-  const [hours, minutes] = time.split(':').map(Number);
-  const period = hours >= 12 ? 'PM' : 'AM';
-  const displayHours = hours % 12 || 12;
-  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
-}
 
 // Get collection path for event type
 function getEventPath(event: CalendarEvent): string {
@@ -103,7 +97,12 @@ function isZoomLink(location?: string): boolean {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span class="sr-only">Time:</span>
-            {formatTime(thisWeekEvent.startTime)} - {formatTime(thisWeekEvent.endTime)} ET
+            <LocalTime
+              startDateTime={thisWeekEvent.startDateTime}
+              endDateTime={thisWeekEvent.endDateTime}
+              startTime={thisWeekEvent.startTime}
+              endTime={thisWeekEvent.endTime}
+            />
           </span>
         </div>
 
@@ -200,7 +199,13 @@ function isZoomLink(location?: string): boolean {
             {nextEvent.title}
           </p>
           <p class="text-base text-grey-500">
-            {formatDate(nextEvent.date)} • {formatTime(nextEvent.startTime)} ET
+            <LocalTime
+              startDateTime={nextEvent.startDateTime}
+              endDateTime={nextEvent.endDateTime}
+              startTime={nextEvent.startTime}
+              endTime={nextEvent.endTime}
+              showDate={true}
+            />
           </p>
         </div>
         <a

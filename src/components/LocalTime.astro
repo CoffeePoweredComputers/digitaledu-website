@@ -1,0 +1,112 @@
+---
+/**
+ * LocalTime Component
+ *
+ * Displays event times in the user's local timezone using client-side JavaScript.
+ * Falls back to Eastern Time display for users without JS.
+ *
+ * Props:
+ * - startDateTime: ISO datetime string (e.g., "2026-02-06T10:00:00-05:00")
+ * - endDateTime: ISO datetime string
+ * - startTime: HH:MM string for fallback display
+ * - endTime: HH:MM string for fallback display
+ * - showDate: boolean - whether to show the date as well (default: false)
+ */
+
+interface Props {
+  startDateTime: string;
+  endDateTime: string;
+  startTime: string;
+  endTime: string;
+  showDate?: boolean;
+  class?: string;
+}
+
+const { startDateTime, endDateTime, startTime, endTime, showDate = false, class: className } = Astro.props;
+
+// Format time for fallback display (convert 24h to 12h)
+function formatTime(time: string): string {
+  const [hours, minutes] = time.split(':').map(Number);
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12;
+  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
+
+const fallbackTime = `${formatTime(startTime)} - ${formatTime(endTime)} ET`;
+---
+
+<span
+  class:list={["local-time", className]}
+  data-start={startDateTime}
+  data-end={endDateTime}
+  data-show-date={showDate ? "true" : "false"}
+>
+  {fallbackTime}
+</span>
+
+<script>
+  // Format times in user's local timezone
+  function formatLocalTime() {
+    const timeElements = document.querySelectorAll('.local-time:not([data-formatted])');
+
+    timeElements.forEach((el) => {
+      const startStr = el.getAttribute('data-start');
+      const endStr = el.getAttribute('data-end');
+      const showDate = el.getAttribute('data-show-date') === 'true';
+
+      if (!startStr || !endStr) return;
+
+      try {
+        const startDate = new Date(startStr);
+        const endDate = new Date(endStr);
+
+        // Get user's timezone
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        // Format time
+        const timeFormatter = new Intl.DateTimeFormat('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+          timeZone,
+        });
+
+        const startTimeFormatted = timeFormatter.format(startDate);
+        const endTimeFormatted = timeFormatter.format(endDate);
+
+        // Get timezone abbreviation
+        const tzFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZoneName: 'short',
+          timeZone,
+        });
+        const tzParts = tzFormatter.formatToParts(startDate);
+        const tzAbbr = tzParts.find(p => p.type === 'timeZoneName')?.value || '';
+
+        let display = `${startTimeFormatted} - ${endTimeFormatted} ${tzAbbr}`;
+
+        if (showDate) {
+          const dateFormatter = new Intl.DateTimeFormat('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+            timeZone,
+          });
+          display = `${dateFormatter.format(startDate)}, ${display}`;
+        }
+
+        el.textContent = display;
+        el.setAttribute('data-formatted', 'true');
+      } catch (e) {
+        // Keep fallback on error
+        console.error('Error formatting time:', e);
+      }
+    });
+  }
+
+  // Run on page load
+  formatLocalTime();
+
+  // Run on Astro page transitions
+  document.addEventListener('astro:page-load', formatLocalTime);
+</script>

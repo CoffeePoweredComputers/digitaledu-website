@@ -35,8 +35,8 @@
  * Summary: Session description...
  */
 
-const GOOGLE_CALENDAR_ID = 'c_d3fc88c4f18ef13c526fecee60e89c4cb0360bd206519031129a8d45dc3de576@group.calendar.google.com';
-const GOOGLE_API_KEY = 'AIzaSyCLDtH_yN0fRUZMdKrOO43aYua2wvHwJz4';
+const GOOGLE_CALENDAR_ID = import.meta.env.GOOGLE_CALENDAR_ID;
+const GOOGLE_API_KEY = import.meta.env.GOOGLE_API_KEY;
 
 // Event subtypes for more specific categorization
 export type PresentationSubtype = 'talk';
@@ -67,6 +67,8 @@ export interface Presentation {
   date: Date;
   startTime: string;
   endTime: string;
+  startDateTime: string;  // Full ISO datetime for timezone-aware display
+  endDateTime: string;    // Full ISO datetime for timezone-aware display
   location?: string;
   speaker?: Speaker;
   abstract?: string;
@@ -81,6 +83,8 @@ export interface ReadingGroupSession {
   date: Date;
   startTime: string;
   endTime: string;
+  startDateTime: string;  // Full ISO datetime for timezone-aware display
+  endDateTime: string;    // Full ISO datetime for timezone-aware display
   location?: string;
   paper?: Paper;
   facilitator?: string;
@@ -96,16 +100,13 @@ export interface WritingFeedbackSession {
   date: Date;
   startTime: string;
   endTime: string;
+  startDateTime: string;  // Full ISO datetime for timezone-aware display
+  endDateTime: string;    // Full ISO datetime for timezone-aware display
   location?: string;
   facilitator?: string;
   summary?: string;
   cancelled?: boolean;
 }
-
-// Legacy type aliases for compatibility
-export type Seminar = Presentation;
-export type ReadingGroup = ReadingGroupSession;
-export type WorkingSession = ReadingGroupSession | WritingFeedbackSession;
 
 export type CalendarEvent = Presentation | ReadingGroupSession | WritingFeedbackSession;
 
@@ -194,13 +195,22 @@ function generateSlug(title: string, date: Date): string {
 
 /**
  * Extract time string (HH:MM) from ISO datetime
+ * Parses directly from the string to avoid timezone conversion issues
  */
 function extractTime(dateTimeStr: string): string {
+  // ISO format: 2026-02-06T10:00:00-05:00 or 2026-02-06T10:00:00Z
+  // Extract the time portion directly without Date conversion
+  const timeMatch = dateTimeStr.match(/T(\d{2}):(\d{2})/);
+  if (timeMatch) {
+    return `${timeMatch[1]}:${timeMatch[2]}`;
+  }
+  // Fallback: use Date (may have timezone issues on server)
   const date = new Date(dateTimeStr);
   return date.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
+    timeZone: 'America/New_York',
   });
 }
 
@@ -256,11 +266,16 @@ function parseEvent(event: GoogleCalendarEvent): CalendarEvent | null {
   const title = summary.replace(prefix, '').trim();
 
   // Parse dates
-  const startDateTime = event.start.dateTime || event.start.date || '';
-  const endDateTime = event.end.dateTime || event.end.date || '';
-  const date = new Date(startDateTime);
-  const startTime = event.start.dateTime ? extractTime(startDateTime) : '12:00';
-  const endTime = event.end.dateTime ? extractTime(endDateTime) : '13:00';
+  const startDateTimeStr = event.start.dateTime || event.start.date || '';
+  const endDateTimeStr = event.end.dateTime || event.end.date || '';
+  const date = new Date(startDateTimeStr);
+  const startTime = event.start.dateTime ? extractTime(startDateTimeStr) : '12:00';
+  const endTime = event.end.dateTime ? extractTime(endDateTimeStr) : '13:00';
+
+  // Store full ISO datetime for client-side timezone conversion
+  // For all-day events, create a datetime at noon Eastern
+  const startDateTime = event.start.dateTime || `${event.start.date}T12:00:00-05:00`;
+  const endDateTime = event.end.dateTime || `${event.end.date}T13:00:00-05:00`;
 
   // Parse description
   const parsed = parseDescription(event.description || '');
@@ -281,6 +296,8 @@ function parseEvent(event: GoogleCalendarEvent): CalendarEvent | null {
       date,
       startTime,
       endTime,
+      startDateTime,
+      endDateTime,
       location: event.location || parsed.location,
       cancelled,
     };
@@ -312,6 +329,8 @@ function parseEvent(event: GoogleCalendarEvent): CalendarEvent | null {
       date,
       startTime,
       endTime,
+      startDateTime,
+      endDateTime,
       location: event.location || parsed.location,
       cancelled,
     };
@@ -345,6 +364,8 @@ function parseEvent(event: GoogleCalendarEvent): CalendarEvent | null {
       date,
       startTime,
       endTime,
+      startDateTime,
+      endDateTime,
       location: event.location || parsed.location,
       cancelled,
     };
@@ -429,17 +450,6 @@ export async function getWritingFeedbackSessions(): Promise<WritingFeedbackSessi
   return events.filter((e): e is WritingFeedbackSession => e.type === 'writing-feedback');
 }
 
-// Legacy alias - returns reading group sessions only now
-export const getWorkingSessions = getReadingGroups;
-
-/**
- * Get a single event by ID
- */
-export async function getEventById(id: string): Promise<CalendarEvent | undefined> {
-  const events = await fetchCalendarEvents();
-  return events.find((e) => e.id === id);
-}
-
 /**
  * Get upcoming events (from today onwards)
  */
@@ -450,18 +460,6 @@ export async function getUpcomingEvents(): Promise<CalendarEvent[]> {
   return events
     .filter((e) => new Date(e.date) >= now && !e.cancelled)
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-}
-
-/**
- * Get past events (before today)
- */
-export async function getPastEvents(): Promise<CalendarEvent[]> {
-  const events = await fetchCalendarEvents();
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  return events
-    .filter((e) => new Date(e.date) < now || e.cancelled)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 /**
