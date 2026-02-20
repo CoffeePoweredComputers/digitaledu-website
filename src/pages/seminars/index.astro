@@ -72,6 +72,8 @@ const pastBySemester = pastPresentations.reduce((acc, presentation) => {
               date={presentation.date}
               startTime={presentation.startTime}
               endTime={presentation.endTime}
+              startDateTime={presentation.startDateTime}
+              endDateTime={presentation.endDateTime}
               location={presentation.location}
               speaker={presentation.speaker}
               abstract={presentation.abstract}
@@ -114,6 +116,8 @@ const pastBySemester = pastPresentations.reduce((acc, presentation) => {
                   date={presentation.date}
                   startTime={presentation.startTime}
                   endTime={presentation.endTime}
+                  startDateTime={presentation.startDateTime}
+                  endDateTime={presentation.endDateTime}
                   location={presentation.location}
                   speaker={presentation.speaker}
                   href={`/seminars/${presentation.id}/`}

@@ -6,6 +6,7 @@
  */
 
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LocalTime from '../components/LocalTime.astro';
 import { getUpcomingEvents, getSubtypeLabel, type CalendarEvent } from '../lib/calendar';
 
 // Get upcoming events
@@ -44,13 +45,6 @@ function formatShortDate(date: Date): string {
   }).format(new Date(date));
 }
 
-// Format time
-function formatTime(time: string): string {
-  const [hours, minutes] = time.split(':').map(Number);
-  const period = hours >= 12 ? 'PM' : 'AM';
-  const displayHours = hours % 12 || 12;
-  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
-}
 ---
 
 <BaseLayout title="Home">
@@ -70,7 +64,13 @@ function formatTime(time: string): string {
             {nextEvent.title}
           </span>
           <span class="text-white/70 text-sm shrink-0 ml-auto">
-            {formatShortDate(nextEvent.date)}, {formatTime(nextEvent.startTime)}
+            <LocalTime
+              startDateTime={nextEvent.startDateTime}
+              endDateTime={nextEvent.endDateTime}
+              startTime={nextEvent.startTime}
+              endTime={nextEvent.endTime}
+              showDate={true}
+            />
           </span>
           <span class="text-white shrink-0">→</span>
         </a>
@@ -89,7 +89,7 @@ function formatTime(time: string): string {
           We're a community of researchers, educators, and students at Virginia Tech
           exploring the frontiers of digital education. We host <strong>research presentations</strong>,
           <strong>paper discussions</strong>, and <strong>collaborative writing sessions</strong>
-          covering topics from educational technology to cutting-edge teaching tools.
+          covering topics from learning technologies to teaching practice.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
           <a

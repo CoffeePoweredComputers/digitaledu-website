@@ -73,6 +73,8 @@ const pastBySemester = pastSessions.reduce((acc, session) => {
               date={session.date}
               startTime={session.startTime}
               endTime={session.endTime}
+              startDateTime={session.startDateTime}
+              endDateTime={session.endDateTime}
               location={session.location}
               facilitator={session.facilitator}
               summary={session.summary}
@@ -115,6 +117,8 @@ const pastBySemester = pastSessions.reduce((acc, session) => {
                   date={session.date}
                   startTime={session.startTime}
                   endTime={session.endTime}
+                  startDateTime={session.startDateTime}
+                  endDateTime={session.endDateTime}
                   location={session.location}
                   facilitator={session.facilitator}
                   summary={session.summary}

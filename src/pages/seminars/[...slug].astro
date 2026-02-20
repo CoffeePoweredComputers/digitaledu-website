@@ -7,6 +7,7 @@
  */
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import LocalTime from '../../components/LocalTime.astro';
 import { getPresentations, getSubtypeLabel, type Presentation } from '../../lib/calendar';
 
 export async function getStaticPaths() {
@@ -19,7 +20,7 @@ export async function getStaticPaths() {
 
 const { presentation } = Astro.props as { presentation: Presentation };
 
-const { title, date, startTime, endTime, location, speaker, abstract, cancelled, subtype } = presentation;
+const { title, date, startTime, endTime, startDateTime, endDateTime, location, speaker, abstract, cancelled, subtype } = presentation;
 
 // Get badge class based on subtype
 const badgeClass = subtype === 'feedback' ? 'badge-feedback' : 'badge-talk';
@@ -34,16 +35,6 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 
 const formattedDate = dateFormatter.format(new Date(date));
 const isoDate = new Date(date).toISOString().split('T')[0];
-
-// Format time
-function formatTime(time: string): string {
-  const [hours, minutes] = time.split(':').map(Number);
-  const period = hours >= 12 ? 'PM' : 'AM';
-  const displayHours = hours % 12 || 12;
-  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
-}
-
-const displayTime = `${formatTime(startTime)} - ${formatTime(endTime)} ET`;
 
 // Check if location is a URL (Zoom link)
 const isZoomLink = location?.startsWith('http') && location.includes('zoom');
@@ -88,10 +79,15 @@ const isZoomLink = location?.startsWith('http') && location.includes('zoom');
             <div>
               <dt class="text-sm text-grey-500 font-semibold">Date & Time</dt>
               <dd>
-                <time datetime={`${isoDate}T${startTime}`}>
+                <time datetime={startDateTime}>
                   {formattedDate}
                   <br />
-                  {displayTime}
+                  <LocalTime
+                    startDateTime={startDateTime}
+                    endDateTime={endDateTime}
+                    startTime={startTime}
+                    endTime={endTime}
+                  />
                 </time>
               </dd>
             </div>
