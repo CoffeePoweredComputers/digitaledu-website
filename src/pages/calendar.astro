@@ -38,15 +38,12 @@ const calendarEvents = events.map((e) => {
 });
 
 // DigitalEd@VT Google Calendar (for subscribe links)
-const GOOGLE_CALENDAR_ID = 'c_d3fc88c4f18ef13c526fecee60e89c4cb0360bd206519031129a8d45dc3de576@group.calendar.google.com';
-const CALENDAR_ICS_URL = `https://calendar.google.com/calendar/ical/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/public/basic.ics`;
-
+const GOOGLE_CALENDAR_ID = import.meta.env.GOOGLE_CALENDAR_ID;
 // Subscribe URLs
 const subscribeLinks = {
   google: `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(GOOGLE_CALENDAR_ID)}`,
-  outlook: `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(CALENDAR_ICS_URL)}`,
-  apple: `webcal://${CALENDAR_ICS_URL.replace('https://', '')}`,
-  ics: CALENDAR_ICS_URL,
+  outlook: `https://outlook.office.com/calendar/0/addfromweb?url=${encodeURIComponent(`https://calendar.google.com/calendar/ical/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/public/basic.ics`)}`,
+  apple: `webcal://calendar.google.com/calendar/ical/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/public/basic.ics`,
 };
 ---
 
@@ -93,7 +90,7 @@ const subscribeLinks = {
         <!-- Subscribe Buttons -->
         <div class="bg-white rounded-lg border border-grey-300 p-6 shadow-sm">
           <h2 class="text-lg font-heading font-semibold text-vt-maroon mb-4">Subscribe to Calendar</h2>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="grid sm:grid-cols-3 gap-4">
             <div class="group">
               <a
                 href={subscribeLinks.google}
@@ -141,22 +138,6 @@ const subscribeLinks = {
                 <span class="font-medium text-grey-900 text-sm">Apple Calendar</span>
               </a>
               <p class="text-xs text-grey-500 mt-2 px-1">Subscribe on Mac, iPhone, or iPad</p>
-            </div>
-
-            <div class="group">
-              <a
-                href={subscribeLinks.ics}
-                class="flex items-center gap-3 bg-grey-50 border border-grey-200 rounded-lg p-3 hover:border-vt-maroon hover:shadow-md transition-all no-underline"
-                download="diged-vt-calendar.ics"
-              >
-                <svg class="w-6 h-6 flex-shrink-0 text-vt-maroon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                  <polyline points="7,10 12,15 17,10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                <span class="font-medium text-grey-900 text-sm">Download ICS</span>
-              </a>
-              <p class="text-xs text-grey-500 mt-2 px-1">Import into any calendar app</p>
             </div>
           </div>
         </div>
