@@ -12,20 +12,31 @@
     "program": "PhD",
     "advisor": "Cliff Shaffer",
     "research": "CS Education Research",
-    "url": ""
+    "url": "",
+    "photo": "/images/people/kwasi-biritwum-nyarko.jpg"
   },
   {
     "name": "S. Moonwara A. Monisha",
     "program": "PhD",
     "advisor": "David H Smith IV",
     "research": "Databases Education, Automated Grading & Feedback",
-    "url": ""
+    "url": "",
+    "photo": "/images/people/moonwara-monisha.jpg"
   },
   {
     "name": "Vee Pettit",
     "program": "PhD",
     "advisor": "Sally Hamouda",
     "research": "",
-    "url": ""
+    "url": "",
+    "photo": "/images/people/vee-pettit.jpg"
+  },
+  {
+    "name": "Alexandra Thompson",
+    "program": "PhD",
+    "advisor": "Sara Hooshangi",
+    "research": "CS Education, Socioeconomic Factors in Computing",
+    "url": "https://scholar.google.com/citations?user=Q8ska4UAAAAJ",
+    "photo": "/images/people/alexandra-thompson.jpg"
   }
 ]
